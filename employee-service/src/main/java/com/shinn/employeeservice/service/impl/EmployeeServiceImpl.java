@@ -5,6 +5,7 @@ import com.shinn.employeeservice.dto.DepartmentDto;
 import com.shinn.employeeservice.dto.EmployeeDto;
 import com.shinn.employeeservice.entity.Employee;
 import com.shinn.employeeservice.repository.EmployeeRepository;
+import com.shinn.employeeservice.service.APIClient;
 import com.shinn.employeeservice.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 //    private RestTemplate restTemplate;
 
-    private WebClient webClient;
+//    private WebClient webClient;
+    private APIClient apiClient;
     @Override
     public EmployeeDto save(EmployeeDto employeeDto) {
         Employee employee = new Employee(
@@ -53,11 +55,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 //                    DepartmentDto.class);
 //            DepartmentDto departmentDto = responseEntity.getBody();
 
-            DepartmentDto departmentDto = webClient.get()
-                    .uri("http://localhost:8080/api/departments/" + employee.getDepartmentCode())
-                    .retrieve()
-                    .bodyToMono(DepartmentDto.class)
-                    .block();
+//            DepartmentDto departmentDto = webClient.get()
+//                    .uri("http://localhost:8080/api/departments/" + employee.getDepartmentCode())
+//                    .retrieve()
+//                    .bodyToMono(DepartmentDto.class)
+//                    .block();
+            DepartmentDto departmentDto = apiClient.findByDepartmentCode(employee.getDepartmentCode());
 
             EmployeeDto employeeDto = new EmployeeDto(
                     employee.getId(),
